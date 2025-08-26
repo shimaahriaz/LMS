@@ -25,6 +25,8 @@ const VideoPlayer = forwardRef<VideoPlayerRef, VideoPlayerProps>(
     const videoRef = useRef<HTMLVideoElement>(null);
     const [completed, setCompleted] = useState(false);
     const [lastPlayedTime, setLastPlayedTime] = useState<number | null>(null);
+    const [error, setError] = useState<string | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
     // Expose methods to parent component
     useImperativeHandle(ref, () => ({
       seekTo: (time: number) => {
@@ -59,14 +61,34 @@ const VideoPlayer = forwardRef<VideoPlayerRef, VideoPlayerProps>(
 
       const handleLoadedMetadata = () => {
         onDuration?.(video.duration);
+        setIsLoading(false);
+        setError(null);
+        console.log("Video loaded successfully:", src);
+        console.log("Video duration:", video.duration);
+      };
+
+      const handleError = () => {
+        setError("Failed to load video");
+        setIsLoading(false);
+        console.error("Video error:", video.error);
+        console.error("Video src:", src);
+      };
+
+      const handleLoadStart = () => {
+        setIsLoading(true);
+        setError(null);
       };
 
       video.addEventListener("timeupdate", handleTimeUpdate);
       video.addEventListener("loadedmetadata", handleLoadedMetadata);
+      video.addEventListener("error", handleError);
+      video.addEventListener("loadstart", handleLoadStart);
 
       return () => {
         video.removeEventListener("timeupdate", handleTimeUpdate);
         video.removeEventListener("loadedmetadata", handleLoadedMetadata);
+        video.removeEventListener("error", handleError);
+        video.removeEventListener("loadstart", handleLoadStart);
       };
     }, [onProgress, onDuration, completed]);
 
@@ -105,6 +127,33 @@ const VideoPlayer = forwardRef<VideoPlayerRef, VideoPlayerProps>(
     return (
       <div className="w-full bg-white rounded-lg overflow-hidden">
         <div className="relative w-full bg-black">
+          {isLoading && (
+            <div className="absolute inset-0 flex items-center justify-center bg-gray-900">
+              <div className="text-white text-center">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white mx-auto mb-2"></div>
+                <p>Loading video...</p>
+              </div>
+            </div>
+          )}
+          
+          {error && (
+            <div className="absolute inset-0 flex items-center justify-center bg-gray-900">
+              <div className="text-white text-center p-4">
+                <svg className="w-12 h-12 text-red-500 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
+                </svg>
+                <p className="text-lg font-semibold mb-2">Video Error</p>
+                <p className="text-sm text-gray-300 mb-4">{error}</p>
+                <button 
+                  onClick={() => window.location.reload()} 
+                  className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                >
+                  Reload Page
+                </button>
+              </div>
+            </div>
+          )}
+          
           <video
             ref={videoRef}
             src={src}

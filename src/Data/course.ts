@@ -28,7 +28,7 @@ export const mockCourse: Course = {
       id: "l1",
       title: "Introduction to React",
       durationSec: 1200, // 20 minutes
-      url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4", // Using a sample video from Google's CDN
+      url: "https://res.cloudinary.com/dmakszkza/video/upload/v1756211528/video1_jjlegy.mp4",
       description: "Learn the basics of React, its core concepts, and why it's become the most popular JavaScript library for building user interfaces.",
       instructor: "Sarah Johnson"
     },
@@ -36,7 +36,7 @@ export const mockCourse: Course = {
       id: "l2", 
       title: "Components and Props",
       durationSec: 1800, // 30 minutes
-      url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4", // Using a sample video from Google's CDN
+      url: "https://res.cloudinary.com/dmakszkza/video/upload/v1756210478/video2_owl9ms.mp4", // Using a sample video from Google's CDN
       description: "Master React components, understand props, and learn how to create reusable UI elements.",
       instructor: "Sarah Johnson"
     },
@@ -44,7 +44,7 @@ export const mockCourse: Course = {
       id: "l3",
       title: "State and Lifecycle",
       durationSec: 2400, // 40 minutes
-      url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4", // Using a sample video from Google's CDN
+      url: "https://res.cloudinary.com/dmakszkza/video/upload/v1756210478/video2_owl9ms.mp4",
       description: "Dive deep into React state management and component lifecycle methods.",
       instructor: "Sarah Johnson"
     },
@@ -52,7 +52,7 @@ export const mockCourse: Course = {
       id: "l4",
       title: "Hooks and Functional Components",
       durationSec: 2100, // 35 minutes
-      url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4", // Using a sample video from Google's CDN
+      url: "https://res.cloudinary.com/dmakszkza/video/upload/v1756210489/video1_x3b9pw.mp4",
       description: "Modern React development with hooks and functional components.",
       instructor: "Sarah Johnson"
     },
@@ -60,7 +60,7 @@ export const mockCourse: Course = {
       id: "l5",
       title: "Advanced Patterns",
       durationSec: 2700, // 45 minutes
-      url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4", // Using a sample video from Google's CDN
+      url: "https://res.cloudinary.com/dmakszkza/video/upload/v1756211528/video1_jjlegy.mp4",
       locked: true,
       description: "Advanced React patterns and best practices for scalable applications.",
       instructor: "Sarah Johnson"
@@ -69,7 +69,7 @@ export const mockCourse: Course = {
       id: "l6",
       title: "Performance Optimization",
       durationSec: 3000, // 50 minutes
-      url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4", // Using a sample video from Google's CDN
+      url: "https://res.cloudinary.com/dmakszkza/video/upload/v1756210478/video2_owl9ms.mp4",
       locked: true,
       description: "Optimize your React applications for better performance and user experience.",
       instructor: "Sarah Johnson"
