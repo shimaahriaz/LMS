@@ -28,7 +28,7 @@ export const mockCourse: Course = {
       id: "l1",
       title: "Introduction to React",
       durationSec: 1200, // 20 minutes
-      url: "https://res.cloudinary.com/dmakszkza/video/upload/v1756211528/video1_jjlegy.mp4",
+      url: "https://res.cloudinary.com/dmakszkza/video/upload/v1756210478/video2_owl9ms.mp4",
       description: "Learn the basics of React, its core concepts, and why it's become the most popular JavaScript library for building user interfaces.",
       instructor: "Sarah Johnson"
     },
@@ -52,7 +52,7 @@ export const mockCourse: Course = {
       id: "l4",
       title: "Hooks and Functional Components",
       durationSec: 2100, // 35 minutes
-      url: "https://res.cloudinary.com/dmakszkza/video/upload/v1756210489/video1_x3b9pw.mp4",
+      url: "https://res.cloudinary.com/dmakszkza/video/upload/v1756210478/video2_owl9ms.mp4",
       description: "Modern React development with hooks and functional components.",
       instructor: "Sarah Johnson"
     },
