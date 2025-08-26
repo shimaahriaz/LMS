@@ -208,6 +208,32 @@ npm run build
 npm run preview
 ```
 
+## 🚀 Deployment
+
+### Vercel Deployment (Recommended)
+```bash
+# Install Vercel CLI
+npm i -g vercel
+
+# Deploy to Vercel
+vercel
+
+# For production deployment
+vercel --prod
+```
+
+### Important Notes for Vercel:
+- **Video Files**: The app uses CDN-hosted videos (Google's sample videos) for demonstration
+- **localStorage**: Works perfectly on Vercel for notes persistence
+- **Performance**: Optimized for Vercel's serverless architecture
+- **Caching**: Configured with proper cache headers for video content
+
+### Alternative Video Hosting Options:
+1. **Cloudinary**: For video hosting and optimization
+2. **AWS S3**: For scalable video storage
+3. **Vimeo/YouTube**: For external video hosting
+4. **Bunny.net**: For video CDN services
+
 ## Project Structure
 
 ```

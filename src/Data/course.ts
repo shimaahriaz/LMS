@@ -21,59 +21,59 @@ export type Course = {
 
 // Mock course data
 export const mockCourse: Course = {
-  id: "course-1",
-  title: "React LMS Video Course",
+  id: "react-basics",
+  title: "React Fundamentals",
   lessons: [
     {
       id: "l1",
-      title: "Lesson 1: Introduction to React",
-      durationSec: 180,
-      url: "/video1.mp4",
-      description: "Learn the fundamentals of React, including what it is, why it's popular, and how to set up your development environment. We'll create your first React component and understand the basics of JSX.",
-      instructor: "Sarah Johnson",
+      title: "Introduction to React",
+      durationSec: 1200, // 20 minutes
+      url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4", // Using a sample video from Google's CDN
+      description: "Learn the basics of React, its core concepts, and why it's become the most popular JavaScript library for building user interfaces.",
+      instructor: "Sarah Johnson"
     },
     {
-      id: "l2",
-      title: "Lesson 2: JSX & Components",
-      durationSec: 240,
-      url: "/video2.mp4",
-      description: "Dive deep into JSX syntax and component architecture. Learn how to create reusable components, pass props, and compose complex user interfaces from simple building blocks.",
-      instructor: "Sarah Johnson",
+      id: "l2", 
+      title: "Components and Props",
+      durationSec: 1800, // 30 minutes
+      url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4", // Using a sample video from Google's CDN
+      description: "Master React components, understand props, and learn how to create reusable UI elements.",
+      instructor: "Sarah Johnson"
     },
     {
       id: "l3",
-      title: "Lesson 3: State & Props",
-      durationSec: 300,
-      url: "/video1.mp4",
-      description: "Master state management and props in React. Learn how to make components dynamic and interactive, handle events, and implement conditional rendering.",
-      instructor: "Sarah Johnson",
+      title: "State and Lifecycle",
+      durationSec: 2400, // 40 minutes
+      url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4", // Using a sample video from Google's CDN
+      description: "Dive deep into React state management and component lifecycle methods.",
+      instructor: "Sarah Johnson"
     },
     {
       id: "l4",
-      title: "Lesson 4: Hooks Deep Dive",
-      durationSec: 360,
-      url: "/video2.mp4",
-      description: "Learn how to handle side effects in React components using the useEffect hook. We'll cover cleanup functions, dependency arrays, and common patterns for managing component lifecycle.",
-      instructor: "Sarah Johnson",
+      title: "Hooks and Functional Components",
+      durationSec: 2100, // 35 minutes
+      url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4", // Using a sample video from Google's CDN
+      description: "Modern React development with hooks and functional components.",
+      instructor: "Sarah Johnson"
     },
     {
       id: "l5",
-      title: "Lesson 5: Advanced Topics",
-      durationSec: 420,
-      url: "/video1.mp4",
+      title: "Advanced Patterns",
+      durationSec: 2700, // 45 minutes
+      url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4", // Using a sample video from Google's CDN
       locked: true,
-      description: "Explore advanced React concepts including Context API, performance optimization techniques, and testing strategies for building robust applications.",
-      instructor: "Sarah Johnson",
+      description: "Advanced React patterns and best practices for scalable applications.",
+      instructor: "Sarah Johnson"
     },
     {
       id: "l6",
-      title: "Lesson 6: Performance Optimization",
-      durationSec: 480,
-      url: "/video2.mp4",
+      title: "Performance Optimization",
+      durationSec: 3000, // 50 minutes
+      url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4", // Using a sample video from Google's CDN
       locked: true,
-      description: "Learn techniques to make your React applications faster and more efficient, including memoization, code splitting, and bundle optimization.",
-      instructor: "Sarah Johnson",
-    },
+      description: "Optimize your React applications for better performance and user experience.",
+      instructor: "Sarah Johnson"
+    }
   ],
   chaptersByLessonId: {
     l1: [
