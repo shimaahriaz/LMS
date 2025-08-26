@@ -55,6 +55,11 @@ const VideoPlayer = forwardRef<VideoPlayerRef, VideoPlayerProps>(
         onProgress?.(percent);
         onTimeUpdate?.(video.currentTime);
 
+        // Save current time to localStorage every 5 seconds
+        if (Math.floor(video.currentTime) % 5 === 0) {
+          localStorage.setItem("lastPlayedTime", video.currentTime.toString());
+        }
+
         if (percent >= 90 && !completed) setCompleted(true);
         if (video.currentTime < video.duration - 2) setCompleted(false);
       };
@@ -102,25 +107,47 @@ const VideoPlayer = forwardRef<VideoPlayerRef, VideoPlayerProps>(
         }
       };
 
+      // Also save time when video is paused or stopped
+      const handlePause = () => {
+        if (videoRef.current) {
+          localStorage.setItem(
+            "lastPlayedTime",
+            videoRef.current.currentTime.toString()
+          );
+        }
+      };
+
+      const video = videoRef.current;
+      if (video) {
+        video.addEventListener("pause", handlePause);
+      }
+
       window.addEventListener("beforeunload", handleBeforeUnload);
 
-      return () =>
+      return () => {
         window.removeEventListener("beforeunload", handleBeforeUnload);
+        if (video) {
+          video.removeEventListener("pause", handlePause);
+        }
+      };
     }, []);
 
-    // أول ما الصفحة تفتح رجع آخر وقت
     useEffect(() => {
       const savedTime = localStorage.getItem("lastPlayedTime");
       if (savedTime) {
-        setLastPlayedTime(parseFloat(savedTime));
+        const time = parseFloat(savedTime);
+        if (!isNaN(time) && time > 0) {
+          setLastPlayedTime(time);
+        }
       }
     }, []);
 
-    // Resume من آخر وقت
     const handleResume = () => {
       if (videoRef.current && lastPlayedTime !== null) {
         videoRef.current.currentTime = lastPlayedTime;
-        videoRef.current.play();
+        videoRef.current.play().catch((error) => {
+          console.error("Error playing video:", error);
+        });
       }
     };
 
@@ -135,17 +162,27 @@ const VideoPlayer = forwardRef<VideoPlayerRef, VideoPlayerProps>(
               </div>
             </div>
           )}
-          
+
           {error && (
             <div className="absolute inset-0 flex items-center justify-center bg-gray-900">
               <div className="text-white text-center p-4">
-                <svg className="w-12 h-12 text-red-500 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
+                <svg
+                  className="w-12 h-12 text-red-500 mx-auto mb-2"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"
+                  />
                 </svg>
                 <p className="text-lg font-semibold mb-2">Video Error</p>
                 <p className="text-sm text-gray-300 mb-4">{error}</p>
-                <button 
-                  onClick={() => window.location.reload()} 
+                <button
+                  onClick={() => window.location.reload()}
                   className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
                 >
                   Reload Page
@@ -153,7 +190,7 @@ const VideoPlayer = forwardRef<VideoPlayerRef, VideoPlayerProps>(
               </div>
             </div>
           )}
-          
+
           <video
             ref={videoRef}
             src={src}
@@ -167,7 +204,7 @@ const VideoPlayer = forwardRef<VideoPlayerRef, VideoPlayerProps>(
 
         {/* Progress Info */}
 
-        {lastPlayedTime !== null && (
+        {lastPlayedTime !== null && lastPlayedTime > 0 && (
           <div className="mt-4 p-4 bg-[#EFF6FF] rounded-lg flex justify-between items-center shadow-sm">
             {/* Left Section */}
             <div className="flex items-start space-x-2">
@@ -175,7 +212,7 @@ const VideoPlayer = forwardRef<VideoPlayerRef, VideoPlayerProps>(
               <div>
                 <p className="text-gray-900 font-medium">
                   Resume from {Math.floor(lastPlayedTime / 60)}:
-                  {(Math.floor(lastPlayedTime) % 60)
+                  {Math.floor(lastPlayedTime % 60)
                     .toString()
                     .padStart(2, "0")}
                 </p>
