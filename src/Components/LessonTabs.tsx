@@ -191,6 +191,9 @@ const LessonTabs: React.FC<LessonTabsProps> = ({
     }
   };
 
+  // Check if video has started playing
+  const hasVideoStarted = currentTime > 0;
+
   const deleteNote = (noteId: string) => {
     if (!isLoading) {
       setNotes((prev) => {
@@ -313,9 +316,12 @@ const LessonTabs: React.FC<LessonTabsProps> = ({
               clipRule="evenodd"
             />
           </svg>
-          <span className="text-sm font-medium">
-            Notes ({isLoading ? "..." : notes.length})
-          </span>
+                     <span className="text-sm font-medium">
+             Notes ({isLoading ? "..." : notes.length})
+             {!hasVideoStarted && notes.length === 0 && (
+               <span className="ml-1 text-xs text-gray-400">(start video)</span>
+             )}
+           </span>
         </button>
       </div>
 
@@ -408,42 +414,75 @@ const LessonTabs: React.FC<LessonTabsProps> = ({
           </div>
         )}
 
-        {activeTab === "notes" && (
-          <div className="space-y-4">
-            {/* Add Note Form */}
-            <div className="p-4 bg-gray-50 rounded-lg">
-              <div className="flex space-x-2">
-                <input
-                  type="text"
-                  value={newNote}
-                  onChange={(e) => setNewNote(e.target.value)}
-                  placeholder="Add a note at current time..."
-                  className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  onKeyPress={(e) => e.key === "Enter" && addNote()}
-                />
-                <button
-                  onClick={addNote}
-                  disabled={!newNote.trim()}
-                  className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                >
-                  Add
-                </button>
-              </div>
-              <div className="mt-2 text-xs text-gray-500">
-                Current time: {formatTime(currentTime)}
-              </div>
-            </div>
+                 {activeTab === "notes" && (
+           <div className="space-y-4">
+             {/* Add Note Form */}
+             <div className="p-4 bg-gray-50 rounded-lg">
+               {!hasVideoStarted ? (
+                 <div className="text-center py-6">
+                   <div className="mb-4">
+                     <svg className="w-16 h-16 text-gray-400 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                     </svg>
+                   </div>
+                   <h3 className="text-lg font-semibold text-gray-700 mb-2">Start the video first</h3>
+                   <p className="text-gray-500 text-sm mb-4">
+                     You need to start playing the video before you can add notes. 
+                     Notes are automatically timestamped to the current video position.
+                   </p>
+                   <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
+                     <div className="flex items-center space-x-2">
+                       <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                       </svg>
+                       <span className="text-sm text-blue-700 font-medium">How it works:</span>
+                     </div>
+                     <ul className="text-xs text-blue-600 mt-2 space-y-1">
+                       <li>• Start playing the video</li>
+                       <li>• Pause at the moment you want to note</li>
+                       <li>• Type your note and click "Add"</li>
+                       <li>• Click the timestamp to jump back to that moment</li>
+                     </ul>
+                   </div>
+                 </div>
+               ) : (
+                 <>
+                   <div className="flex space-x-2">
+                     <input
+                       type="text"
+                       value={newNote}
+                       onChange={(e) => setNewNote(e.target.value)}
+                       placeholder={hasVideoStarted ? "Add a note at current time..." : "Start the video first..."}
+                       disabled={!hasVideoStarted}
+                       className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed"
+                       onKeyPress={(e) => e.key === "Enter" && hasVideoStarted && addNote()}
+                     />
+                     <button
+                       onClick={addNote}
+                       disabled={!newNote.trim() || !hasVideoStarted}
+                       className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                       title={!hasVideoStarted ? "Start the video first to add notes" : ""}
+                     >
+                       Add
+                     </button>
+                   </div>
+                   <div className="mt-2 text-xs text-gray-500">
+                     {hasVideoStarted ? (
+                       <>Current time: {formatTime(currentTime)}</>
+                     ) : (
+                       <>Video not started yet</>
+                     )}
+                   </div>
+                 </>
+               )}
+             </div>
 
-            {/* Notes List */}
-            {isLoading ? (
-              <div className="text-center text-gray-500 py-8">
-                Loading notes...
-              </div>
-            ) : notes.length === 0 ? (
-              <div className="text-center text-gray-500 py-8">
-                No notes yet. Add your first note above!
-              </div>
-            ) : (
+                         {/* Notes List */}
+             {isLoading ? (
+               <div className="text-center text-gray-500 py-8">
+                 Loading notes...
+               </div>
+             )  : (
               <div className="space-y-3">
                 {notes
                   .sort((a, b) => a.timestamp - b.timestamp)
