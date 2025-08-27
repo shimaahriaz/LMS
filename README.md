@@ -250,8 +250,6 @@ lms-course-video/
 │   ├── App.tsx                     # Main application component
 │   └── main.tsx                    # Application entry point
 ├── public/
-│   ├── video1.mp4                  # Sample video files
-│   ├── video2.mp4
 │   └── captions.vtt                # Video captions
 └── package.json
 ```
